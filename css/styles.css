@@ -1,0 +1,175 @@
+/* Normalize styles across browsers:
+Different browsers apply different default styles (especially margins and padding).
+This rule resets those defaults, so you can have consistent behavior everywhere. */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+}
+
+:root {
+  --primary-bg: #12171e;
+  --text-color: #fff;
+  --hover-bg: #fff;
+  --hover-text: #12171e;
+  --border-color: #ccc;
+  --sidebar-width: 6%;
+  --sidebar-active-width: 15%;
+  --sidebar-transition: all 0.5s ease;
+}
+
+body {
+  background-image: url("../assets/1518139442662.webp");
+  background-size: cover; /* Ensures the image covers the entire viewport */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed; /* Keeps the background fixed on scroll */
+  font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+}
+
+.user-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  border: 1px solid var(--border-color);
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 5%;
+  background-color: var(--primary-bg);
+  padding: 0.4rem 0.8rem;
+  transition: var(--sidebar-transition);
+}
+
+.sidebar #btn {
+  position: absolute;
+  color: var(--text-color);
+  top: 0.4rem;
+  left: 50%;
+  font-size: 1.2rem;
+  line-height: 50px;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+.sidebar .top .logo {
+  color: var(--text-color);
+  display: flex;
+  height: 50px;
+  width: 100%;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.top .logo i {
+  font-size: 2rem;
+  margin-right: 5px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.user p {
+  color: var(--text-color);
+  opacity: 1;
+  margin-left: 1rem;
+}
+
+.sidebar p {
+  opacity: 0;
+}
+
+.sidebar ul li {
+  position: relative;
+  list-style-type: none;
+  height: 50px;
+  width: 90%;
+  margin: 0.8rem auto;
+  line-height: 50px;
+}
+
+.sidebar ul li a {
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 0.8rem;
+}
+
+.sidebar ul li a:hover {
+  background-color: var(--hover-bg);
+  color: var(--hover-text);
+}
+
+.sidebar ul li a i {
+  min-width: 50px;
+  text-align: center;
+  height: 50px;
+  border-radius: 12px;
+  line-height: 50px;
+}
+
+.sidebar .nav-item {
+  opacity: 0;
+}
+
+.sidebar ul li .tooltip {
+  position: absolute;
+  left: 125px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0.5rem rgba(0, 0, 0, 0.2);
+  border-radius: 0.6rem;
+  padding: 0.4rem 1.2rem;
+  line-height: 1.8rem;
+  z-index: 20;
+  opacity: 0;
+}
+
+.sidebar.active ul li .tooltip { /* Don't show tooltip when sidebar is active */
+  display: none;
+}
+
+.sidebar ul li:hover .tooltip {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.main-content {
+  position: relative;
+  min-height: 100vh;
+  top: 0;
+  left: 80px;
+  transition: var(--sidebar-transition);
+  width: calc(100% - 80px);
+  padding: 1rem;
+}
+
+/* Sidebar is active */
+.sidebar.active #btn {
+  left: 90%;
+}
+
+.sidebar.active ~ .main-content {
+  left: 15%;
+  width: calc(100% - 25%);
+}
+
+.sidebar.active {
+  width: 15%;
+}
+
+.sidebar.active .top .logo,
+.sidebar.active p,
+.sidebar.active .nav-item {
+  opacity: 1;
+}
