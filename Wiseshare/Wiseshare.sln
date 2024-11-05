@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{83A2A15B-37B0-48D5-9847-04F7BADD4FB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wiseshare.Domain", "src\Wiseshare.Domain\Wiseshare.Domain.csproj", "{0BC43020-EFB8-449F-A229-EB39897E36BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wiseshare.Application", "src\Wiseshare.Application\Wiseshare.Application.csproj", "{C0AB722E-66E2-47A9-8E5E-5D5255FBC4D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0BC43020-EFB8-449F-A229-EB39897E36BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BC43020-EFB8-449F-A229-EB39897E36BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BC43020-EFB8-449F-A229-EB39897E36BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BC43020-EFB8-449F-A229-EB39897E36BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0AB722E-66E2-47A9-8E5E-5D5255FBC4D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0AB722E-66E2-47A9-8E5E-5D5255FBC4D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0AB722E-66E2-47A9-8E5E-5D5255FBC4D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0AB722E-66E2-47A9-8E5E-5D5255FBC4D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0BC43020-EFB8-449F-A229-EB39897E36BA} = {83A2A15B-37B0-48D5-9847-04F7BADD4FB6}
+		{C0AB722E-66E2-47A9-8E5E-5D5255FBC4D5} = {83A2A15B-37B0-48D5-9847-04F7BADD4FB6}
+	EndGlobalSection
+EndGlobal
