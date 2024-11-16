@@ -1,7 +1,8 @@
 using System.Dynamic;
 using Wiseshare.Domain.Common.Models;
-using Wiseshare.Domain.PropertyAggregate.ValueObject;
-using Wiseshare.Domain.UserAggregate.ValueObjects;
+using Wiseshare.Domain.PropertyAggregate.ValueObjects;
+
+
 
 namespace Wiseshare.Domain.PropertyAggregate;
 
