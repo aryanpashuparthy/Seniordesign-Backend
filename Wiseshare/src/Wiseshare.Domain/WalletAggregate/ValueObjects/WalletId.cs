@@ -18,7 +18,7 @@ public sealed class WalletId : AggregateRootId<string>
     }
 
     // Factory method to create WalletId using UserId
-    public static WalletId Create(UserId userId)
+    public static WalletId CreateUnique(UserId userId)
     {
         // Validate that userId is not null or invalid if necessary
         return new WalletId(userId);

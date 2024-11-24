@@ -38,7 +38,8 @@ public sealed class User: AggregateRoot<UserId, Guid> {
         return new User(firstName,lastName,phone,email,password);
 
     }
-    
+  
+        
 
 #pragma warning disable CS8618 //disable warning for non-nullable since i have a nullable value in constructor
     private User()

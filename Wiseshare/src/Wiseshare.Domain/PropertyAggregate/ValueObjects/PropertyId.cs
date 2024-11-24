@@ -1,7 +1,6 @@
 using Wiseshare.Domain.Common.Models;
 
 namespace Wiseshare.Domain.PropertyAggregate.ValueObjects;
-
 public sealed class PropertyId : AggregateRootId<Guid> {
     private PropertyId(Guid value) : base(value){}
 

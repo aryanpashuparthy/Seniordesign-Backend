@@ -5,8 +5,6 @@
 ``` csharp
 class User{
     User Create();
-    Void UpdateEmail();
-    Void UpdatePhone();
 }
 ```
 ```json 

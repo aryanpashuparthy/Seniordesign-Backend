@@ -11,7 +11,7 @@ public sealed class InvestmentId : AggregateRootId<string> {
     }
 
      private InvestmentId(UserId userId, PropertyId propertyId)
-        : base($"Bill_{userId.Value}_{propertyId.Value}")
+        : base($"Bill_{userId.Value}_{propertyId.Value}")//returns "Bill"_userId_propertyID
     {
     }
     public static InvestmentId Create(UserId userId, PropertyId propertyId){
