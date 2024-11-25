@@ -1,4 +1,5 @@
 
+using FluentResults;
 using Wiseshare.Domain.UserAggregate;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
 
@@ -6,9 +7,9 @@ namespace Wiseshare.Application.services;
 
 public interface IUserService {
 
-public User? GetUserById(Guid userId);
+public Result<User> GetUserById(UserId userId);
 
-public User? GetUserByEmail(string UserEmail);
+public Result<User> GetUserByEmail(string UserEmail);
 
-public User? GetUserByPhone(string UserPhone);
+public Result<User> GetUserByPhone(string UserPhone);
 }

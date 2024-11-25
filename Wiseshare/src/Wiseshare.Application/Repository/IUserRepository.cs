@@ -1,13 +1,16 @@
+using FluentResults;
 using Wiseshare.Domain.UserAggregate;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
 namespace Wiseshare.Application.Repository;
 public interface IUserRepository{
 
 
-public User? GetUserByEmail(string UserEmail);
-public User? GetUserByPhone(string UserPhone);
-public User? Create(User User);
-public User? Read(Guid UserId);
-public User? Delete(string User);
-public User? Update(UserId UserID, string email, string phone, string Password);
+public Result<User> GetUserByEmail(string UserEmail);
+public Result<User> GetUserByPhone(string UserPhone);
+public Result<User> GetUserById(UserId userId);
+public Result Insert(User user);
+public Result Delete(UserId userId);
+public Result Update(User user);
+public Result Save();
+public Result<IEnumerable<User>> GetUsers();
 }

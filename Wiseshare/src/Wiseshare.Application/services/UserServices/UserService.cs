@@ -1,3 +1,4 @@
+using FluentResults;
 using Wiseshare.Application.Repository;
 using Wiseshare.Domain.UserAggregate;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
@@ -28,9 +29,10 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public User? GetUserById(Guid userId)
+    public Result<User> GetUserById(UserId userId)
     {
-        return _userRepository.Read(userId);
+        return _userRepository.GetUserById(userId);
+
 
         //return _users.FirstOrDefault(user => user.Id.Value == userId);//user represent each individual item in the _list => means do this which is comparing
         //how the function would look like without using lambda function
@@ -43,7 +45,7 @@ public class UserService : IUserService
     }
     return null; */
     }
-    public User? GetUserByEmail(string email)
+    public Result<User> GetUserByEmail(string email)
     {
         //find the first user with a matching email then stop searching
         //return _users.FirstOrDefault(user => user.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
@@ -51,45 +53,40 @@ public class UserService : IUserService
         return _userRepository.GetUserByEmail(email);
     }
 
-    public User? GetUserByPhone(string phone)
+    public Result<User> GetUserByPhone(string phone)
     {
         //find the user with the first matching phone number
         //return _users.FirstOrDefault(user => user.Phone == phone);
         return _userRepository.GetUserByPhone(phone);
     }
 
-    public User? CreateUser(User user)
+    public Result Insert(User user)
     {
-        var newUser = User.Create(
-            user.FirstName,
-            user.LastName,
-            user.Email,
-            user.Phone,
-            user.Password
-        );
-        return _userRepository.Create(newUser);
+        return _userRepository.Insert(user);
+
     }
-    public User? UpdateUser(UserId userId, string? email = null, string? phone = null, string? password = null)
+    public Result UpdateUser(User user)
     {
-        if (userId is null) return null; // Check if userId exist if not return null 
+        // if (User is null) return null; // Check if userId exist if not return null 
 
-        // Retrieve the existing user object from the repository
-        var user = _userRepository.Read(userId.Value);
-        if (user is null) return null;
+        // // Retrieve the existing user object from the repository
+        // var user = _userRepository.Read(userId.Value);
+        // if (user is null) return null;
 
-        //checks if the user Provide information to update if not return the current value by using the getter
-        var updatedEmail = !string.IsNullOrWhiteSpace(email) ? email : user.Email;
-        var updatedPhone = !string.IsNullOrWhiteSpace(phone) ? phone : user.Phone;
-        var updatedPassword = !string.IsNullOrWhiteSpace(password) ? password : user.Password;
+        // //checks if the user Provide information to update if not return the current value by using the getter
+        // var updatedEmail = !string.IsNullOrWhiteSpace(email) ? email : user.Email;
+        // var updatedPhone = !string.IsNullOrWhiteSpace(phone) ? phone : user.Phone;
+        // var updatedPassword = !string.IsNullOrWhiteSpace(password) ? password : user.Password;
 
-        // Call the repository to update the user with the updated values
-        return _userRepository.Update(userId, updatedEmail, updatedPhone, updatedPassword);
+        // // Call the repository to update the user with the updated values
+        // return _userRepository.Update(userId, updatedEmail, updatedPhone, updatedPassword);
+         return _userRepository.Update(user);
     }
-    public User? DeleteUser(string userId)
-{
-    //delete a user by passed in ID
-    return _userRepository.Delete(userId);
-}
+    public Result DeleteUser(UserId userId)
+    {
+        //delete a user by passed in ID
+        return _userRepository.Delete(userId);
+    }
 
 
 
