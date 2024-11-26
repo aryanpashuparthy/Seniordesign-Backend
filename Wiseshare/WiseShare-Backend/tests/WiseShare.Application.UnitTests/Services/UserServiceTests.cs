@@ -48,21 +48,7 @@ public class UserServiceTests
 
     }
 
-    [Fact]
-    public void Test_GetUserById_WhenUserIdIsInvalid()
-    {
-        // Arrange
-        var userId = UserId.CreateUnique();
-        _userRepoMock.Setup(x => x.GetUserById(userId))
-            .Returns(Result.Fail<User>("User not found"));//tells mock to return a failed Result<user>
 
-        // Act
-        var result = _userServicee.GetUserById(userId);
-
-        // Assert
-        Assert.True(result.IsFailed);
-        Assert.Equal("User not found", result.Errors.First().Message);
-    }
 
     [Fact]
     public void Test_GetUserByPhone_WhenUserPhoneIsValid()
@@ -84,13 +70,14 @@ public class UserServiceTests
     }
 
     [Fact]
-    public void Test_GetUsers_WhenUserIsValid()
+    public void Test_GetUsers_WhenUsersAreValid()
     {
         var users = new List<User>{
             User.Create("ali","arthur","ali@gmail.com","123456789","password4"),
             User.Create("ali2","arthur2","ali2@gmail.com","123456789","password4"),
             User.Create("ali","arthur","ali@gmail.com","123456789","password4")
         };
+        // defines how GetUser should work
         _userRepoMock.Setup(x => x.GetUsers())
         .Returns(users);
 
@@ -101,7 +88,7 @@ public class UserServiceTests
         Assert.Equal(3, result.Value.Count());//checks the amount of users mathc those in the list
 
         // Check the first user in the list
-        var firstUser = result.Value.ElementAt(0); // or result.Value.First()
+        var firstUser = result.Value.First();// or result.Value.First()
         Assert.Equal("ali", firstUser.FirstName);
         Assert.Equal("arthur", firstUser.LastName);
         Assert.Equal("ali@gmail.com", firstUser.Email);
@@ -111,6 +98,75 @@ public class UserServiceTests
         Assert.Equal("ali2", secondUser.FirstName);
         Assert.Equal("arthur2", secondUser.LastName);
         Assert.Equal("ali2@gmail.com", secondUser.Email);
+
+        // Check the second user in the list
+        var third = result.Value.ElementAt(2);
+        Assert.Equal("ali", third.FirstName);
+        Assert.Equal("arthur", third.LastName);
+        Assert.Equal("ali@gmail.com", third.Email);
+    }
+
+    
+
+    [Fact]
+    public void Test_GetUserById_WhenUserIdIsInvalid()
+    {
+        // Arrange
+        var userId = UserId.CreateUnique();
+        _userRepoMock.Setup(x => x.GetUserById(userId))
+            .Returns(Result.Fail<User>("User not found"));//tells mock to return a failed Result<user>
+
+        // Act
+        var result = _userServicee.GetUserById(userId);
+
+        // Assert
+        Assert.True(result.IsFailed);
+        Assert.Equal("User not found", result.Errors.First().Message);
+    }
+
+    [Fact]
+    public void Test_GetUserByEmail_WhenUserEmailIsInValid() 
+    {
+        var userId = UserId.CreateUnique();
+        var userEmail = "ali@gmail.com";
+        _userRepoMock.Setup( x => x.GetUserByEmail(userEmail))
+        .Returns(Result.Fail<User>("User not found"));
+
+        var result = _userServicee.GetUserByEmail(userEmail);
+        Assert.True(result.IsFailed);
+        Assert.Equal("User not found", result.Errors.First().Message);
+    }
+
+    [Fact]
+    public void Test_GetUsers_WhenUsersAreInValid(){
+
+        var users = new List<User>{};// empty list to simulate no users found
+        _userRepoMock.Setup( x => x.GetUsers())
+        .Returns(Result.Ok<IEnumerable<User>>(users));
+
+        var result = _userServicee.GetUsers();
+
+        Assert.NotNull(result);
+        Assert.True(result.IsSuccess);
+        Assert.Equal(new List<User>(), result.Value);
+        //Assert.Equal(new List<User>{User.Create("ali","dkfjl","dfd","dklf","dkfkd")}, result.Value);//make the test fail on purpose
+
+
+    }
+
+    [Fact]
+    public void Test_GetUserByPhone_WhenPhoneIsInvalid()
+    {
+        var userId = UserId.CreateUnique();
+        var userPhone = "123456789"; 
+        _userRepoMock.Setup( x => x.GetUserByPhone(userPhone))
+        .Returns(Result.Fail<User>("User not found"));
+
+        var result = _userServicee.GetUserByPhone(userPhone);
+
+        Assert.True(result.IsFailed);
+        Assert.Equal("User not found", result.Errors.First().Message);
+        
     }
 
 }

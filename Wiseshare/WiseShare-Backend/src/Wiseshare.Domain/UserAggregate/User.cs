@@ -35,7 +35,7 @@ public sealed class User: AggregateRoot<UserId, Guid> {
                 //function to create user
     public static User Create(string firstName, string lastName, string email, string phone, string password)
     {
-        return new User(firstName,lastName,phone,email,password);
+        return new User(firstName,lastName,email,phone, password);
 
     }
   

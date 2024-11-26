@@ -45,6 +45,11 @@ public class UserService : IUserService
     }
     return null; */
     }
+    public Result<IEnumerable<User>> GetUsers()
+    {
+        return _userRepository.GetUsers();
+
+    }
     public Result<User> GetUserByEmail(string email)
     {
         //find the first user with a matching email then stop searching
@@ -53,7 +58,7 @@ public class UserService : IUserService
         return _userRepository.GetUserByEmail(email);
     }
 
-    public Result<User> GetUserByPhone(string phone)
+     public Result<User> GetUserByPhone(string phone)
     {
         //find the user with the first matching phone number
         //return _users.FirstOrDefault(user => user.Phone == phone);
@@ -80,7 +85,7 @@ public class UserService : IUserService
 
         // // Call the repository to update the user with the updated values
         // return _userRepository.Update(userId, updatedEmail, updatedPhone, updatedPassword);
-         return _userRepository.Update(user);
+        return _userRepository.Update(user);
     }
     public Result DeleteUser(UserId userId)
     {
