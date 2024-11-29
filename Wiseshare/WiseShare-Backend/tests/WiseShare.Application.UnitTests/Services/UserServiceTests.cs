@@ -33,6 +33,21 @@ public class UserServiceTests
     }
 
     [Fact]
+    public void Test_GetUserById_WhenUserIdIsInvalid()
+    {
+        // Arrange
+        var userId = UserId.CreateUnique();
+        _userRepoMock.Setup(x => x.GetUserById(userId))
+            .Returns(Result.Fail<User>("User not found"));//tells mock to return a failed Result<user>
+
+        // Act
+        var result = _userServicee.GetUserById(userId);
+
+        // Assert
+        Assert.True(result.IsFailed);
+        Assert.Equal("User not found", result.Errors.First().Message);
+    }
+    [Fact]
     public void Test_GetUserByEmail_WhenUserEmailIsValid()
     {
         var userId = UserId.CreateUnique();
@@ -48,6 +63,18 @@ public class UserServiceTests
 
     }
 
+    [Fact]
+    public void Test_GetUserByEmail_WhenUserEmailIsInValid()
+    {
+        var userId = UserId.CreateUnique();
+        var userEmail = "ali@gmail.com";
+        _userRepoMock.Setup(x => x.GetUserByEmail(userEmail))
+        .Returns(Result.Fail<User>("User not found"));
+
+        var result = _userServicee.GetUserByEmail(userEmail);
+        Assert.True(result.IsFailed);
+        Assert.Equal("User not found", result.Errors.First().Message);
+    }
 
 
     [Fact]
@@ -68,6 +95,106 @@ public class UserServiceTests
         Assert.Equal("123456789", result.Value.Phone);
 
     }
+
+    [Fact]
+    public void Test_GetUserByPhone_WhenPhoneIsInvalid()
+    {
+        var userId = UserId.CreateUnique();
+        var userPhone = "123456789";
+        _userRepoMock.Setup(x => x.GetUserByPhone(userPhone))
+        .Returns(Result.Fail<User>("User not found"));
+
+        var result = _userServicee.GetUserByPhone(userPhone);
+
+        Assert.True(result.IsFailed);
+        Assert.Equal("User not found", result.Errors.First().Message);
+
+    }
+
+    [Fact]
+    public void Test_Save_WhenSaveIsValid()
+    {
+        _userRepoMock.Setup(x => x.Save())
+        .Returns(Result.Ok);
+
+        var result = _userServicee.Save();
+        Assert.True(result.IsSuccess);
+        Assert.False(result.IsFailed);
+    }
+
+    [Fact]
+    public void Test_Save_WhenSaveIsInValid()
+    {
+        _userRepoMock.Setup(x => x.Save())
+        .Returns(Result.Fail("User information not saved"));
+
+        var result = _userServicee.Save();
+        Assert.False(result.IsSuccess);
+        Assert.True(result.IsFailed);
+        Assert.Equal("User information not saved", result.Errors.First().Message);
+    }
+
+    [Fact]
+    public void Test_Delete_WhenDeleteIsValid()
+    {
+        // Given
+        var userId = UserId.CreateUnique();
+        _userRepoMock.Setup(x => x.Delete(userId))
+        .Returns(Result.Ok());
+
+        // When
+        var result = _userServicee.Delete(userId);
+        // Then
+
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public void Test_Delete_WhenDeleteIsInValid()
+    {
+        // Given
+        var userId = UserId.CreateUnique();
+        _userRepoMock.Setup(x => x.Delete(userId))
+        .Returns(Result.Fail("Userid is invalid"));
+
+        // When
+        var result = _userServicee.Delete(userId);
+        // Then
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal("Userid is invalid", result.Errors.First().Message);
+    }
+
+    [Fact]
+    public void Test_Insert_WhenInsertIsValid()
+    {
+        //Arrange
+        var userId = UserId.CreateUnique();
+        var user = User.Create("ali", "arthur", "ali@gmail.com", "123456789", "password");
+        _userRepoMock.Setup(x => x.Insert(user))
+        .Returns(Result.Ok);
+
+        //act 
+        var result = _userServicee.Insert(user);
+
+        //Assert
+        Assert.True(result.IsSuccess);
+    }
+
+    /*
+        [Fact]
+        *public void Test_Insert_WhenInsertIsInvalid()
+        {
+            User? user = null;
+            _userRepoMock.Setup(x => x.Insert(user))
+            .Returns(Result.Fail("User cannot be null"));
+
+            var result = _userServicee.Insert(user);
+
+            Assert.False(result.IsSuccess);
+            Assert.Equal("User cannot be null",result.Errors.First().Message);
+        }
+        */
 
     [Fact]
     public void Test_GetUsers_WhenUsersAreValid()
@@ -106,42 +233,12 @@ public class UserServiceTests
         Assert.Equal("ali@gmail.com", third.Email);
     }
 
-    
-
     [Fact]
-    public void Test_GetUserById_WhenUserIdIsInvalid()
+    public void Test_GetUsers_WhenUsersAreInValid()
     {
-        // Arrange
-        var userId = UserId.CreateUnique();
-        _userRepoMock.Setup(x => x.GetUserById(userId))
-            .Returns(Result.Fail<User>("User not found"));//tells mock to return a failed Result<user>
 
-        // Act
-        var result = _userServicee.GetUserById(userId);
-
-        // Assert
-        Assert.True(result.IsFailed);
-        Assert.Equal("User not found", result.Errors.First().Message);
-    }
-
-    [Fact]
-    public void Test_GetUserByEmail_WhenUserEmailIsInValid() 
-    {
-        var userId = UserId.CreateUnique();
-        var userEmail = "ali@gmail.com";
-        _userRepoMock.Setup( x => x.GetUserByEmail(userEmail))
-        .Returns(Result.Fail<User>("User not found"));
-
-        var result = _userServicee.GetUserByEmail(userEmail);
-        Assert.True(result.IsFailed);
-        Assert.Equal("User not found", result.Errors.First().Message);
-    }
-
-    [Fact]
-    public void Test_GetUsers_WhenUsersAreInValid(){
-
-        var users = new List<User>{};// empty list to simulate no users found
-        _userRepoMock.Setup( x => x.GetUsers())
+        var users = new List<User> { };// empty list to simulate no users found
+        _userRepoMock.Setup(x => x.GetUsers())
         .Returns(Result.Ok<IEnumerable<User>>(users));
 
         var result = _userServicee.GetUsers();
@@ -152,21 +249,6 @@ public class UserServiceTests
         //Assert.Equal(new List<User>{User.Create("ali","dkfjl","dfd","dklf","dkfkd")}, result.Value);//make the test fail on purpose
 
 
-    }
-
-    [Fact]
-    public void Test_GetUserByPhone_WhenPhoneIsInvalid()
-    {
-        var userId = UserId.CreateUnique();
-        var userPhone = "123456789"; 
-        _userRepoMock.Setup( x => x.GetUserByPhone(userPhone))
-        .Returns(Result.Fail<User>("User not found"));
-
-        var result = _userServicee.GetUserByPhone(userPhone);
-
-        Assert.True(result.IsFailed);
-        Assert.Equal("User not found", result.Errors.First().Message);
-        
     }
 
 }

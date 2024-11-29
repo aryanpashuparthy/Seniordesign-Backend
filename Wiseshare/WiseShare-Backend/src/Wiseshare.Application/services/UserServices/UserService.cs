@@ -68,9 +68,8 @@ public class UserService : IUserService
     public Result Insert(User user)
     {
         return _userRepository.Insert(user);
-
     }
-    public Result UpdateUser(User user)
+    public Result Update(User user)
     {
         // if (User is null) return null; // Check if userId exist if not return null 
 
@@ -87,7 +86,11 @@ public class UserService : IUserService
         // return _userRepository.Update(userId, updatedEmail, updatedPhone, updatedPassword);
         return _userRepository.Update(user);
     }
-    public Result DeleteUser(UserId userId)
+
+    public Result Save(){
+        return _userRepository.Save();
+    }
+    public Result Delete(UserId userId)
     {
         //delete a user by passed in ID
         return _userRepository.Delete(userId);
