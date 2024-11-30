@@ -11,7 +11,7 @@ public class AuthenticationService : IAuthenticationService
     private readonly IUserRepository _userRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-    public AuthenticationService(IUserRepository userRepository,IJwtTokenGenerator jwtTokenGenerator)
+    public AuthenticationService(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator)
     {
         _userRepository = userRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
@@ -36,7 +36,7 @@ public class AuthenticationService : IAuthenticationService
         return Result.Ok();
     }
 
-    public Result Login(string email, string password)
+    public Result<(string Token, string FirstName, string LastName)> Login(string email, string password)
     {
         var userResult = _userRepository.GetUserByEmail(email);
 
@@ -53,7 +53,13 @@ public class AuthenticationService : IAuthenticationService
             return Result.Fail("Invalid email or password.");
         }
 
-        return Result.Ok();
+        //return Result.Ok();
+
+        //test
+        var token1 = _jwtTokenGenerator.GenerateToken(user);
+
+        return Result.Ok((token1, user.FirstName, user.LastName));
+
     }
 
 }

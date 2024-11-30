@@ -4,28 +4,28 @@ using WiseShare.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    // Add services to the container.
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-    //builder.Services.AddEndpointsApiExplorer();
-    //builder.Services.AddSwaggerGen();
+    // Add services to the container
+    builder.Services.AddControllers(); // Enable controller support
+    builder.Services.AddEndpointsApiExplorer(); // Enable Swagger/OpenAPI support
+    builder.Services.AddSwaggerGen(); // Configure Swagger
 
     builder.Services
-           .AddPresentation()
-           .AddApplication()
-           .AddInfrastructure(builder.Configuration);
+           .AddPresentation()  // Add Presentation layer services
+           .AddApplication()   // Add Application layer services
+           .AddInfrastructure(builder.Configuration); // Add Infrastructure layer services
 }
+
 var app = builder.Build();
 {
-    /*
-    // Configure the HTTP request pipeline.
+    // Configure the HTTP request pipeline
     if (app.Environment.IsDevelopment())
     {
-        app.UseSwagger();
+        app.UseSwagger(); // Enable Swagger in Development
         app.UseSwaggerUI();
     }
-    */
-    app.UseHttpsRedirection();
-    app.MapControllers();
-    app.Run();
 
+    app.UseHttpsRedirection(); // Redirect HTTP to HTTPS
+    app.MapControllers();      // Map all controller routes
+
+    app.Run();                 // Start the application
 }
