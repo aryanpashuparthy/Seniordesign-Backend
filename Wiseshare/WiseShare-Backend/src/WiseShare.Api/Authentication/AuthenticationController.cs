@@ -52,8 +52,10 @@ public class AuthenticationController : ControllerBase
         });
         */
         //test
+        //var (id,token, firstName, lastName) = result.Value;
         var (token, firstName, lastName) = result.Value;
         return Ok(new AuthenticationResponse(
+        //Id:id,
         Token: token,
         FirstName: firstName,
         LastName: lastName

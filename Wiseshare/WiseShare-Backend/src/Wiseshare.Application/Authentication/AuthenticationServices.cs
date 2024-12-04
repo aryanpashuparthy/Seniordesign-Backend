@@ -58,7 +58,8 @@ public class AuthenticationService : IAuthenticationService
         //test
         var token1 = _jwtTokenGenerator.GenerateToken(user);
 
-        return Result.Ok((token1, user.FirstName, user.LastName));
+         //return Result.Ok((user.Id.Value.ToString(), token1, user.FirstName, user.LastName));
+         return Result.Ok((token1, user.FirstName, user.LastName));
 
     }
 
