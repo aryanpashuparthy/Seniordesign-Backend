@@ -11,7 +11,7 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         //services
-        services.AddSingleton<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddSingleton<IPropertyService, PropertyService>();
         return services;
     }

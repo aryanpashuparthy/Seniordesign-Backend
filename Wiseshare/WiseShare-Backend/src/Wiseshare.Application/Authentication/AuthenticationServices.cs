@@ -1,4 +1,3 @@
-
 using FluentResults;
 using Wiseshare.Application.Common.Interfaces.Authentication;
 using Wiseshare.Application.Repository;
@@ -17,50 +16,48 @@ public class AuthenticationService : IAuthenticationService
         _jwtTokenGenerator = jwtTokenGenerator;
     }
 
+    // Handles user registration
     public Result Register(string firstName, string lastName, string email, string phone, string password)
     {
-        //check if user already exists
+        // Check if a user with the same email or phone already exists
+        if (_userRepository.GetUserByEmail(email).IsSuccess || _userRepository.GetUserByPhone(phone).IsSuccess)
+        {
+            return Result.Fail("User with the same email or phone already exists.");
+        }
 
-        //create user(generate uniqie id)
+        // Create a new user
+        var user = User.Create(firstName, lastName, email, phone, password);
 
-        //create jwtToke
-        var userId = UserId.CreateUnique();
+        // Save the user to the repository
+        _userRepository.Insert(user);
 
-
-
-        var user = User.Create(firstName, lastName, email, phone, password); //create the user from passed in values
-        var token = _jwtTokenGenerator.GenerateToken(user);
-
-        _userRepository.Insert(user); //save the user to the repo
-
+        // Return success
         return Result.Ok();
     }
 
+    // Handles user login
     public Result<(string Token, string FirstName, string LastName)> Login(string email, string password)
     {
+        // Retrieve the user by email
         var userResult = _userRepository.GetUserByEmail(email);
 
-        // Check if the user exists
         if (userResult.IsFailed)
         {
-            return Result.Fail("Invalid email or password.");
+            return Result.Fail<(string Token, string FirstName, string LastName)>("Invalid email or password.");
         }
 
-        // check the password
         var user = userResult.Value;
+
+        // Validate the password
         if (user.Password != password)
         {
-            return Result.Fail("Invalid email or password.");
+            return Result.Fail<(string Token, string FirstName, string LastName)>("Invalid email or password.");
         }
 
-        //return Result.Ok();
+        // Generate a JWT token
+        var token = _jwtTokenGenerator.GenerateToken(user);
 
-        //test
-        var token1 = _jwtTokenGenerator.GenerateToken(user);
-
-         //return Result.Ok((user.Id.Value.ToString(), token1, user.FirstName, user.LastName));
-         return Result.Ok((token1, user.FirstName, user.LastName));
-
+        // Return token and user details
+        return Result.Ok((token, user.FirstName, user.LastName));
     }
-
 }
