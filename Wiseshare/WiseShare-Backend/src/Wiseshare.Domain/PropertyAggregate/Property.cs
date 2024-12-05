@@ -27,7 +27,7 @@ public sealed class Property : AggregateRoot<PropertyId, Guid>{
         AvailableShares = availableShares;
 
     }
-    public static Property Create(string address,string location,double propertyValue,double sharePrice, int availableShares)
+    public static Property Create(string address,string location, double propertyValue,double sharePrice, int availableShares)
     {
         return new Property(address,location,propertyValue,sharePrice,availableShares);
 

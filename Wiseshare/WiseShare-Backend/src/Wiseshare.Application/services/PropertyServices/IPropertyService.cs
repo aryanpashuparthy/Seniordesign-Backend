@@ -2,9 +2,9 @@ using FluentResults;
 using Wiseshare.Domain.PropertyAggregate;
 using Wiseshare.Domain.PropertyAggregate.ValueObjects;
 
-namespace Wiseshare.Application.services;
+namespace Wiseshare.Application.Services;
 
-interface IPropertyService
+public interface IPropertyService
 {
     public Result<Property> GetPropertyById(PropertyId propertyId);
 
@@ -16,5 +16,6 @@ interface IPropertyService
 
     public Result Insert(Property property);
     public Result Delete(PropertyId propertyId);
+    public Result Update(Property property);
     
 }

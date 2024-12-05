@@ -14,16 +14,16 @@ public sealed class Wallet : AggregateRoot<WalletId, string> {
 
 
 
-private Wallet(UserId userId, decimal balance, DateTime createdDateTime, DateTime updatedDateTime)
+private Wallet(UserId userId, DateTime createdDateTime, DateTime updatedDateTime)
 {
     UserId = userId ?? throw new ArgumentNullException(nameof(userId)); //?? ensures userId is not null. if it is throw an eception
-    Balance = balance;
+    Balance = 0;
     CreatedDateTime = createdDateTime;
     UpdatedDateTime = updatedDateTime;
 }
-public static Wallet Create(UserId userId, decimal balance, DateTime createdDateTime, DateTime updatedDateTime)
+public static Wallet Create(UserId userId, DateTime createdDateTime, DateTime updatedDateTime)
 {
-    return new Wallet(userId, balance, createdDateTime, updatedDateTime);
+    return new Wallet(userId,  createdDateTime, updatedDateTime);
 }
 
 }

@@ -3,7 +3,7 @@ using WiseShare.Api.DTO.Authentication;
 using WiseShare.Application.Authentication;
 using FluentResults;
 
-namespace WiseShare.Api.Authentication;
+namespace WiseShare.Api.Controllers;
 
 [Route("auth")]
 [ApiController]
@@ -58,7 +58,6 @@ public class AuthenticationController : ControllerBase
         //Id:id,
         Token: token,
         FirstName: firstName,
-        LastName: lastName
-    ));
+        LastName: lastName));
     }
 }

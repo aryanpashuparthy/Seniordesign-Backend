@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Wiseshare.Application.services;
 using Wiseshare.Application.services.UserServices;
+using Wiseshare.Application.Services;
 using WiseShare.Application.Authentication;
 
 namespace WiseShare.Application;
@@ -11,6 +12,7 @@ public static class DependencyInjection
     {
         //services
         services.AddSingleton<IAuthenticationService, AuthenticationService>();
+        services.AddSingleton<IPropertyService, PropertyService>();
         return services;
     }
 }

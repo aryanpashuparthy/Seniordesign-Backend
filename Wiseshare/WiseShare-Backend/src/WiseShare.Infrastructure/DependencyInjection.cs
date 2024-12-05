@@ -18,6 +18,7 @@ public static class DependencyInjection
   {
     //test
     services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+    services.AddSingleton<IPropertyRepository, InMemoryPropertyRepository>();
     //real
 
     services.Configure<JwtSettings>(configuration.GetSection("jwtSettings"));
